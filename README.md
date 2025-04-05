@@ -238,10 +238,13 @@ roslaunch me5413_world navigation.launch
 
 ## Display the work that has been done so far
 phase1_navigation_gif:
+
 ![phase1_navigation_gif](output/phase1_nav.gif)
 phase2_detection_gif:
+
 ![phase2_detection_gif](output/phase2_detect.gif)
 phase2_navigation_gif:
+
 ![phase2_navigation_gif](output/phase2_nav.gif)
 
 
