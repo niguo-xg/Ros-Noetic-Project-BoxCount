@@ -5,6 +5,7 @@
 **Project Objectives**
 
 This project based on ME5413_Final_Project of NUS.
+This project is a fork of the [ME5413_Final_Project](https://github.com/NUS-Advanced-Robotics-Centre/ME5413_Final_Project) repository.
 
 The core goal of this project is to build a ROS-based system that enables the robot to:
 
