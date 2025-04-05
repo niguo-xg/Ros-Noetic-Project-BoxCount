@@ -1,0 +1,46 @@
+<launch>
+
+  <!-- Connect the robot to a keyboard teleop controller -->
+  <!-- <node name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" respawn="true"/> -->
+
+  <!-- Run the map server -->
+  <arg name="map_file" default="$(find me5413_world)/maps/map_v1.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- Launch the AMCL Localizer -->
+  <include file="$(find jackal_navigation)/launch/include/amcl.launch" />
+
+  <!-- Launch Move Base -->
+  <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
+
+  <!-- Launch Rviz with our settings -->
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find me5413_world)/rviz/navigation.rviz" output="log" respawn="true"/>
+
+  <node ns="me5413_world" pkg="me5413_world" type="goal_publisher_node" name="goal_publisher_node" output="screen" />
+
+
+
+
+  <!-- 桥梁检测与穿越 -->
+  <node pkg="me5413_world" type="bridge_crosser.py" name="bridge_crosser" output="screen">
+    <!-- 河流区域参数 - 可以根据实际环境调整 -->
+    <param name="river_x_min" value="19.0" />
+    <param name="river_x_max" value="22.0" />
+    <param name="river_y_min" value="-15.0" />
+    <param name="river_y_max" value="-5.0" />
+  </node>
+
+  <!-- 箱子检测与识别 -->
+  <node pkg="me5413_world" type="box_detector.py" name="box_detector" output="screen">
+    <!-- 是否使用模拟数据（在没有真实传感器数据时使用） -->
+    <!--<param name="simulation_mode" value="true" /> -->
+    <!-- 目标数字 -->
+    <!-- <param name="target_number" value="1" />-->
+    <!-- 已知的箱子边长（米） -->
+    <param name="known_box_size" value="0.8" />
+  </node>
+
+  <!-- 主导航程序 -->
+  <node pkg="me5413_world" type="sequential_goals.py" name="sequential_goal_publisher" output="screen" />
+
+</launch>
